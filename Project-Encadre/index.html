@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus Components</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              gray: {
+                50: '#F9FAFB',
+                100: '#F3F4F6',
+                200: '#E5E7EB',
+                300: '#D1D5DB',
+                400: '#9CA3AF',
+                500: '#6B7280',
+                600: '#4B5563',
+                700: '#374151',
+                800: '#1F2937',
+                900: '#111827',
+              },
+            },
+            boxShadow: {
+              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+              'glow': '0 0 15px rgba(234, 179, 8, 0.3)',
+            },
+            animation: {
+                'slow-zoom': 'slowZoom 8s linear infinite alternate',
+                'slide-up': 'slideUp 0.6s ease-out forwards',
+            },
+            keyframes: {
+                slowZoom: {
+                    'from': { transform: 'scale(1)' },
+                    'to': { transform: 'scale(1.1)' },
+                },
+                slideUp: {
+                    'from': { opacity: '0', transform: 'translateY(20px)' },
+                    'to': { opacity: '1', transform: 'translateY(0)' },
+                }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        /* Smooth transitions for all interactive elements */
+        .btn-hover { transition: all 0.3s ease-out; }
+        .btn-hover:hover { transform: translateY(-2px); }
+        .card-hover { transition: all 0.3s ease-out; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased font-sans flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+        <!-- Main Nav -->
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between gap-6">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-2.5 group">
+                    <div class="w-9 h-9 bg-yellow-400 rounded-xl flex items-center justify-center text-gray-900 shadow-md shadow-yellow-400/20 group-hover:scale-105 transition-transform duration-300">
+                        <i data-lucide="cpu" class="w-[22px] h-[22px]"></i>
+                    </div>
+                    <div class="flex flex-col leading-none">
+                        <span class="text-xl font-bold text-gray-900 tracking-tight group-hover:text-gray-700 transition-colors">NEXUS</span>
+                        <span class="text-[10px] text-gray-500 font-semibold uppercase tracking-widest">Components</span>
+                    </div>
+                </a>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-xl mx-4 relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="w-[18px] h-[18px] text-gray-400 group-focus-within:text-yellow-500 transition-colors"></i>
+                    </div>
+                    <input type="text" placeholder="Search components..." class="w-full bg-gray-50 text-gray-900 border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:border-yellow-400 focus:bg-white focus:ring-4 focus:ring-yellow-400/10 transition-all duration-300 text-sm font-medium" />
+                </div>
+
+                <!-- Icons -->
+                <div class="flex items-center gap-2 md:gap-4 text-gray-600">
+                    <a href="#admin" class="hidden md:flex p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600 hover:text-gray-900">
+                        <i data-lucide="user" class="w-[22px] h-[22px]"></i>
+                    </a>
+                    <a href="#cart" class="flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-xl btn-hover group relative">
+                        <i data-lucide="shopping-cart" class="w-[20px] h-[20px]"></i>
+                        <span id="cart-badge" class="absolute -top-2 -right-2 w-5 h-5 bg-yellow-400 text-gray-900 text-[10px] font-bold flex items-center justify-center rounded-full hidden">0</span>
+                        <span class="text-sm font-semibold hidden sm:inline">Cart</span>
+                    </a>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-900">
+                        <i data-lucide="menu" class="w-[24px] h-[24px]"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secondary Nav -->
+        <div class="hidden md:block border-t border-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between h-12 text-sm font-medium">
+                    <div class="flex items-center h-full space-x-8 text-gray-600">
+                        <a href="#home" class="nav-link border-b-2 border-transparent hover:text-gray-900 h-full flex items-center transition-colors">Home</a>
+                        <a href="#products" class="nav-link border-b-2 border-transparent hover:text-gray-900 h-full flex items-center transition-colors">Products</a>
+                        <a href="#contact" class="nav-link border-b-2 border-transparent hover:text-gray-900 h-full flex items-center transition-colors">Contact</a>
+                    </div>
+                    <div class="flex items-center space-x-6 text-xs font-bold tracking-wide">
+                        <span class="flex items-center gap-1.5 text-rose-500 bg-rose-50 px-2 py-1 rounded-full">
+                            <i data-lucide="zap" class="w-3 h-3 fill-current"></i> DAILY DEALS
+                        </span>
+                        <span class="flex items-center gap-1.5 text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                            <i data-lucide="check-circle" class="w-3 h-3"></i> NEW ARRIVALS
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 p-4 absolute w-full left-0 top-full shadow-2xl">
+            <nav class="flex flex-col gap-2 text-gray-700 font-medium">
+                <a href="#home" class="p-3 rounded-xl hover:bg-gray-50 mobile-link">Home</a>
+                <a href="#products" class="p-3 rounded-xl hover:bg-gray-50 mobile-link">All Products</a>
+                <a href="#contact" class="p-3 rounded-xl hover:bg-gray-50 mobile-link">Contact</a>
+                <a href="#admin" class="p-3 rounded-xl hover:bg-gray-50 mobile-link">Admin Panel</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="app-content" class="flex-1 container mx-auto px-4 py-8">
+        <!-- Content will be injected here by JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 pt-16 pb-8 mt-auto text-sm">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center text-white">
+                            <i data-lucide="cpu" class="w-[18px] h-[18px]"></i>
+                        </div>
+                        <span class="text-lg font-bold tracking-tight text-gray-900">NEXUS</span>
+                    </div>
+                    <p class="text-gray-500 leading-relaxed">
+                        Premium computer components for enthusiasts and professionals. Building the future, one part at a time.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-gray-900 font-bold mb-6 tracking-tight">Shop</h4>
+                    <ul class="space-y-3 text-gray-500">
+                        <li class="hover:text-yellow-500 cursor-pointer transition-colors">Graphics Cards</li>
+                        <li class="hover:text-yellow-500 cursor-pointer transition-colors">Processors</li>
+                        <li class="hover:text-yellow-500 cursor-pointer transition-colors">Motherboards</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-gray-900 font-bold mb-6 tracking-tight">Support</h4>
+                    <ul class="space-y-3 text-gray-500">
+                        <li class="hover:text-yellow-500 cursor-pointer transition-colors">Contact Us</li>
+                        <li class="hover:text-yellow-500 cursor-pointer transition-colors">Order Status</li>
+                        <li class="hover:text-yellow-500 cursor-pointer transition-colors">Warranty</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-gray-900 font-bold mb-6 tracking-tight">Stay Updated</h4>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Enter your email" class="bg-gray-50 border border-gray-200 px-4 py-2.5 rounded-xl text-gray-900 w-full focus:outline-none focus:border-yellow-400 transition-colors" />
+                        <button class="bg-gray-900 text-white px-5 py-2.5 rounded-xl hover:bg-gray-800 transition-colors font-medium">Join</button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-8 border-t border-gray-100 text-gray-400">
+                <p>&copy; 2025 Nexus Components (wail-zakaria-oussama). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Logic -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
