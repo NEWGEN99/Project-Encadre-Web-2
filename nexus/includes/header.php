@@ -7,9 +7,7 @@
     <script src="assets/js/tailwind.js"></script>
     <script src="assets/js/lucide.js"></script>
     <style>
-        /* إصلاح مشكلة اختفاء القائمة */
         .group:hover .group-hover\:block { display: block; }
-        /* جعل القائمة تتصل بالزر */
         .dropdown-menu { margin-top: 0; padding-top: 10px; }
     </style>
 </head>
@@ -35,6 +33,8 @@
         <div class="flex items-center gap-6 text-sm relative">
             
             <a href="shop.php" class="hover:text-yellow-400 transition font-bold">Shop</a>
+            
+            <a href="contact.php" class="hover:text-yellow-400 transition font-bold">Contact</a>
 
             <div class="relative group h-full flex items-center cursor-pointer">
                 <div class="leading-none text-right">

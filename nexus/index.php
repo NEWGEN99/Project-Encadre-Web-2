@@ -2,7 +2,7 @@
 require_once 'includes/db.php';
 require_once 'includes/header.php';
 
-// جلب آخر 4 منتجات (الأحدث)
+// جلب آخر 4 منتجات
 $stmt = $pdo->query("SELECT p.*, c.name as cat_name FROM products p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.id DESC LIMIT 4");
 $featured = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -22,27 +22,36 @@ $featured = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <?php foreach($featured as $product): ?>
-            <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full group">
-                <div class="relative aspect-[4/3] bg-gray-50 p-4 flex items-center justify-center">
-                    <img src="<?php echo htmlspecialchars($product['image_main']); ?>" 
-                         class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
-                    <span class="absolute top-3 left-3 bg-yellow-400 text-xs font-bold px-2 py-1 rounded">NEW</span>
-                </div>
+            <div class="bg-white border hover:shadow-lg hover:-translate-y-1 transition duration-300 p-3 rounded flex flex-col h-full relative group">
+                <a href="product.php?id=<?= $product['id']; ?>" class="h-48 flex items-center justify-center mb-3 bg-gray-50 rounded overflow-hidden">
+                    <img src="<?= $product['image_main']; ?>" class="max-h-full max-w-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-yellow-400 text-xs font-bold px-2 py-1 rounded shadow">NEW</span>
+                </a>
                 
-                <div class="p-5 flex flex-col flex-1">
-                    <div class="text-xs font-bold text-gray-400 uppercase mb-1"><?php echo htmlspecialchars($product['cat_name'] ?? 'Hardware'); ?></div>
-                    <h3 class="font-bold text-gray-900 mb-2 truncate"><?php echo htmlspecialchars($product['name']); ?></h3>
+                <div class="flex-1 flex flex-col">
+                    <div class="text-xs font-bold text-gray-400 uppercase mb-1"><?= htmlspecialchars($product['cat_name'] ?? 'Hardware'); ?></div>
+                    <a href="product.php?id=<?= $product['id']; ?>" class="text-sm font-bold text-gray-900 hover:text-orange-600 line-clamp-1 mb-1">
+                        <?= htmlspecialchars($product['name']); ?>
+                    </a>
                     
+                    <p class="text-xs text-gray-500 line-clamp-2 mb-3">
+                        <?= htmlspecialchars(substr($product['full_description'], 0, 100)) ?>...
+                    </p>
+
                     <div class="mt-auto flex items-center justify-between">
-                        <span class="text-lg font-bold text-gray-900">$<?php echo number_format($product['price'], 2); ?></span>
+                        <span class="text-lg font-bold text-gray-900">$<?= number_format($product['price'], 2); ?></span>
                         
+                        <?php if($product['stock'] > 0): ?>
                         <form method="POST" action="cart.php">
-                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                            <input type="hidden" name="product_id" value="<?= $product['id']; ?>">
                             <input type="hidden" name="action" value="add">
-                            <button type="submit" class="bg-gray-900 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-black transition">
-                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            <button type="submit" class="bg-gray-900 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-black transition">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
                             </button>
                         </form>
+                        <?php else: ?>
+                            <span class="text-xs text-red-500 font-bold">Out of Stock</span>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
